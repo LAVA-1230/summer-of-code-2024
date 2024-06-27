@@ -30,7 +30,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))],
+        actions: [
+          IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout))
+        ],
       ),
       backgroundColor: Colors.grey,
       body: Center(
