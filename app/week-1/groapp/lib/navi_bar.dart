@@ -1,5 +1,8 @@
 import "package:flutter/material.dart";
+import "package:get/get.dart";
 import "package:google_nav_bar/google_nav_bar.dart";
+import "package:groapp/bottom_nav_contoller.dart";
+// import 'barscan.dart';
 
 class NaviBar extends StatefulWidget {
   const NaviBar({super.key});
@@ -11,6 +14,7 @@ class NaviBar extends StatefulWidget {
 class _NaviBarState extends State<NaviBar> {
   @override
   Widget build(BuildContext context) {
+    BottomNavContoller contoller = Get.put(BottomNavContoller());
     return Scaffold(
       bottomNavigationBar: Container(
         color: Colors.black,
@@ -22,19 +26,28 @@ class _NaviBarState extends State<NaviBar> {
               activeColor: Colors.white,
               tabBackgroundColor: Colors.grey.shade800,
               gap: 8,
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
+              onTabChange: (value) {
+                contoller.index.value = value;
+              },
               tabs: const [
                 GButton(
                   icon: Icons.home,
                   text: "Home",
                 ),
-                GButton(icon: Icons.scanner, text: "Scanner"),
+                GButton(
+                  icon: Icons.scanner,
+                  text: "Scanner",
+                ),
                 GButton(
                   icon: Icons.dataset,
                   text: "Data",
                 ),
               ]),
         ),
+      ),
+      body: Obx(
+        () => contoller.pages[contoller.index.value],
       ),
     );
   }

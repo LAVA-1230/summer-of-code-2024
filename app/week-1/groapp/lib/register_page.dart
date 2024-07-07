@@ -1,5 +1,12 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:groapp/user_model.dart';
+// import 'package:get/get.dart';
+// import 'package:groapp/user_model.dart';
+// import 'package:groapp/database.dart';
+// import 'package:random_string/random_string.dart';
 import 'my_button.dart';
 import 'text_field.dart';
 import 'sq_tile.dart';
@@ -19,6 +26,11 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
 
   final confirmpasswordContoller = TextEditingController();
+
+  final nameController = TextEditingController();
+
+  final PhController = TextEditingController();
+
   // sign user up method
   void signUserUp() async {
     showDialog(
@@ -32,7 +44,25 @@ class _RegisterPageState extends State<RegisterPage> {
     try {
       if (passwordController.text == confirmpasswordContoller.text) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: usernameController.text, password: passwordController.text);
+            email: usernameController.text.toString(),
+            password: passwordController.text.toString());
+
+        // final user = UserDetail(
+        //     email: usernameController.text.trim(),
+        //     fullname: nameController.text.trim(),
+        //     mobileno: PhController.text.trim());
+        // Future addUserDetail(nameController.text,usernameController.text,int.parse(PhController.text.trim())) async{
+        // FirebaseFirestore.instance.collection("users").doc(user?.).set({
+        //   "full name" : nameController.text.trim(),
+        //   "Email Id": usernameController.text.trim(),
+        //   "mobile no.": int.parse(PhController.text.trim())
+        // },);
+
+        addUserDetail(
+          nameController.text.toString(),
+          usernameController.text.toString(),
+          int.parse(PhController.text.toString()),
+        );
       } else {
         wrongPasswordMessage();
       }
@@ -45,6 +75,12 @@ class _RegisterPageState extends State<RegisterPage> {
         wrongPasswordMessage();
       }
     }
+  }
+
+  Future addUserDetail(String fullname, String email, int phno) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .add({"full name": fullname, "email id": email, "mobile no": phno});
   }
 
   void wrongEmailMessage() {
@@ -83,15 +119,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 50),
 
                 // logo
-                const Icon(
-                  Icons.train,
-                  size: 50,
-                ),
 
                 const SizedBox(height: 50),
 
                 // welcome back, you've been missed!
-                Text(
+                const Text(
                   'Lets\'s create an account for you',
                   style: TextStyle(
                     color: Colors.black,
@@ -101,10 +133,20 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 const SizedBox(height: 25),
 
+                MyTextField(
+                  controller: nameController,
+                  hintText: 'Full Name',
+                  obscureText: false,
+                ),
+
+                const SizedBox(
+                  height: 10,
+                ),
+
                 // username textfield
                 MyTextField(
                   controller: usernameController,
-                  hintText: 'Username',
+                  hintText: 'Email-Id',
                   obscureText: false,
                 ),
 
@@ -118,14 +160,24 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
 
                 const SizedBox(height: 10),
-
+                // confirm password
                 MyTextField(
                   controller: confirmpasswordContoller,
                   hintText: 'Comfirm Password',
                   obscureText: true,
                 ),
 
-                const SizedBox(height: 25),
+                const SizedBox(height: 10),
+
+                MyTextField(
+                  controller: PhController,
+                  hintText: 'Mobile No.',
+                  obscureText: false,
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
 
                 // sign in button
                 MyButton(
@@ -166,16 +218,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 50),
 
                 // google + apple sign in buttons
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     // google button
-                    SquareTile(imagePath: 'assets/images/google.png'),
+                    SquareTile(imagePath: 'assets/google.png'),
 
                     SizedBox(width: 25),
 
                     // apple button
-                    SquareTile(imagePath: 'assets/images/apple.png')
+                    SquareTile(imagePath: 'assets/apple.png')
                   ],
                 ),
 

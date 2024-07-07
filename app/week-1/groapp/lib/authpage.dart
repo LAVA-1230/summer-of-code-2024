@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'navi_bar.dart';
+import 'package:groapp/samplefood.dart';
+// import 'navi_bar.dart';
 import 'login_or_register.dart';
 
 class Authpage extends StatelessWidget {
@@ -13,9 +14,9 @@ class Authpage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return NaviBar();
+            return Samplefood();
           } else {
-            return LoginOrRegisterPage();
+            return const LoginOrRegisterPage();
           }
         },
       ),

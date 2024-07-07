@@ -44,6 +44,12 @@ dependencies:
   barcode_scanner: ^4.2.0
   flutter_barcode_scanner: ^2.0.0
   google_nav_bar: ^5.0.6
+  get: ^4.6.6
+  permission_handler: ^11.3.1
+  firebase_database: ^11.0.2
+  random_string: ^2.3.1
+  fluttertoast: ^8.2.6
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:

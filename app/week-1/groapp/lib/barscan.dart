@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Bar_scan extends StatefulWidget {
   const Bar_scan({super.key});
@@ -32,7 +33,28 @@ class _Bar_scanState extends State<Bar_scan> {
           SizedBox(
             height: 70,
           ),
-          ElevatedButton(onPressed: ScanBarcode, child: Text("Scan Barcode"))
+          GestureDetector(
+            child: Container(
+              color: Colors.black,
+              child: Text(
+                "Scan Barcode",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ),
+            onTap: () async {
+              PermissionStatus camera = await Permission.camera.request();
+              if (camera == PermissionStatus.granted) {
+                ScanBarcode();
+              }
+              if (camera == PermissionStatus.denied) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("This permission is recommended.")));
+              }
+              if (camera == PermissionStatus.permanentlyDenied) {
+                openAppSettings();
+              }
+            },
+          )
         ],
       )),
     );
