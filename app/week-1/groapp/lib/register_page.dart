@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:groapp/user_model.dart';
+// import 'package:groapp/user_model.dart';
 // import 'package:get/get.dart';
 // import 'package:groapp/user_model.dart';
 // import 'package:groapp/database.dart';
@@ -64,16 +64,26 @@ class _RegisterPageState extends State<RegisterPage> {
           int.parse(PhController.text.toString()),
         );
       } else {
-        wrongPasswordMessage();
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(
+                  "Both Password should match",
+                  style: TextStyle(color: Colors.white),
+                ),
+              );
+            });
       }
       Navigator.pop(context);
     } on FirebaseException catch (e) {
-      Navigator.pop(context);
-      if (e.code == ' user-not-found') {
-        wrongEmailMessage();
-      } else if (e.code == 'wrong-password') {
-        wrongPasswordMessage();
-      }
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.message.toString()),
+            );
+          });
     }
   }
 
@@ -83,28 +93,28 @@ class _RegisterPageState extends State<RegisterPage> {
         .add({"full name": fullname, "email id": email, "mobile no": phno});
   }
 
-  void wrongEmailMessage() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title: Text('Incorrect Email', style: TextStyle(color: Colors.white)),
-        );
-      },
-    );
-  }
+  // void wrongEmailMessage() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return const AlertDialog(
+  //         title: Text('Incorrect Email', style: TextStyle(color: Colors.white)),
+  //       );
+  //     },
+  //   );
+  // }
 
-  void wrongPasswordMessage() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title:
-              Text('Incorrect Password', style: TextStyle(color: Colors.white)),
-        );
-      },
-    );
-  }
+  // void wrongPasswordMessage() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return const AlertDialog(
+  //         title:
+  //             Text('Incorrect Password', style: TextStyle(color: Colors.white)),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

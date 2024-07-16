@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:groapp/forget_password_page.dart';
 import 'my_button.dart';
 import 'text_field.dart';
 import 'sq_tile.dart';
@@ -33,37 +34,38 @@ class _LoginPageState extends State<LoginPage> {
           email: usernameController.text, password: passwordController.text);
       Navigator.pop(context);
     } on FirebaseException catch (e) {
-      Navigator.pop(context);
-      if (e.code == ' user-not-found') {
-        wrongEmailMessage();
-      } else if (e.code == 'wrong-password') {
-        wrongPasswordMessage();
-      }
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.message.toString()),
+            );
+          });
     }
   }
 
-  void wrongEmailMessage() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title: Text('Incorrect Email', style: TextStyle(color: Colors.white)),
-        );
-      },
-    );
-  }
+  // void wrongEmailMessage() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return const AlertDialog(
+  //         title: Text('Incorrect Email', style: TextStyle(color: Colors.white)),
+  //       );
+  //     },
+  //   );
+  // }
 
-  void wrongPasswordMessage() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title:
-              Text('Incorrect Password', style: TextStyle(color: Colors.white)),
-        );
-      },
-    );
-  }
+  // void wrongPasswordMessage() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return const AlertDialog(
+  //         title:
+  //             Text('Incorrect Password', style: TextStyle(color: Colors.white)),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 // logo
                 const Icon(
-                  Icons.train,
+                  Icons.shopping_cart,
                   size: 100,
                 ),
 
@@ -120,9 +122,18 @@ class _LoginPageState extends State<LoginPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: Colors.grey[600]),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return ForgetPasswordPage();
+                            },
+                          ));
+                        },
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: Colors.grey[600]),
+                        ),
                       ),
                     ],
                   ),

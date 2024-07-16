@@ -95,6 +95,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
                 })
+            MyButton(onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) => PaymentPage())), text: "Pay Now",),
           ],
         ),
       ),
